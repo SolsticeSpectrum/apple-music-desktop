@@ -37,12 +37,7 @@
     "category": "AudioVideo;",
     "executableName": "apple-music",
     "artifactName": "apple-music_${version}_${arch}.${ext}",
-    "desktop": {
-      "Name": "Apple Music",
-      "StartupWMClass": "apple-music",
-      "Keywords": "apple;music;",
-      "Icon": "apple-music"
-    }
+    "desktop": {}
   },
   "win": {
     "icon": "build/icon.ico",
@@ -51,7 +46,6 @@
       "portable",
       "nsis"
     ],
-    "publisherName": "Alex313031",
     "executableName": "apple_music",
     "artifactName": "apple_music_${version}_${arch}.${ext}"
   },
