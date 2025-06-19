@@ -24,18 +24,17 @@ finish-args:
 modules:
   - name: apple-music
     buildsystem: simple
-    build-options:
-      append-path: /usr/lib/sdk/node18/bin
-      env:
-        npm_config_cache: /run/build/apple-music/npm-cache
-        npm_config_offline: 'true'
-        NPM_CONFIG_LOGLEVEL: info
     build-commands:
-      - npm install --offline
-      - npm run build
       - mkdir -p /app/apple-music
-      - cp -r src/* /app/apple-music/
-      - cp package.json /app/apple-music/
+      - |
+        if [ -d "dist/linux-unpacked" ]; then
+          cp -a dist/linux-unpacked/* /app/apple-music/
+        elif [ -d "dist/linux-x64-unpacked" ]; then
+          cp -a dist/linux-x64-unpacked/* /app/apple-music/
+        else
+          echo "Error: No unpacked dist found"
+          exit 1
+        fi
       - install -Dm755 run.sh /app/bin/run.sh
       - install -Dm644 assets/icon.png /app/share/icons/hicolor/512x512/apps/com.alex313031.AppleMusic.png
       - install -Dm644 com.alex313031.AppleMusic.desktop /app/share/applications/com.alex313031.AppleMusic.desktop
@@ -43,9 +42,8 @@ modules:
     sources:
       - type: dir
         path: .
-      - generated-sources.json
       - type: script
         dest-filename: run.sh
         commands:
           - export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
-          - exec zypak-wrapper /app/apple-music/app.js "$@"
+          - exec zypak-wrapper /app/apple-music/apple-music "$@"

@@ -99,11 +99,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Generate sources for flatpak
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Build dist for flatpak  
         run: |
-          rm -rf node_modules
-          wget https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/npm/flatpak-npm-generator.py
-          python3 flatpak-npm-generator.py package-lock.json
+          npm ci
+          npm run distLinux
+        env:
+          NODE_ENV: production
+          ELECTRON_CACHE: ${{ github.workspace }}/electron
+          electron_config_cache: ${{ github.workspace }}/electron
+      
+      - name: Prepare flatpak files
+        run: |
           cp build/com.alex313031.AppleMusic.yml .
           cp build/com.alex313031.AppleMusic.desktop .
           cp build/com.alex313031.AppleMusic.metainfo.xml .
