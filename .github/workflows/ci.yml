@@ -99,14 +99,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup build environment
-        run: |
-          pip3 install aiohttp
-      
       - name: Generate sources for flatpak
         run: |
-          wget https://github.com/flatpak/flatpak-builder-tools/raw/master/node/flatpak-node-generator.py
-          python3 flatpak-node-generator.py npm package-lock.json
+          wget https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/npm/flatpak-npm-generator.py
+          python3 flatpak-npm-generator.py package-lock.json
       
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
