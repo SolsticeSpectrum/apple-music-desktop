@@ -28,10 +28,15 @@ jobs:
             arch: x64
             build_cmd: npm run distLinux
           
-          # Windows builds
+          # Windows x64 builds
           - os: windows-latest
             arch: x64
-            build_cmd: npm run distWin
+            build_cmd: npx electron-builder -w --x64
+          
+          # Windows x86 builds
+          - os: windows-latest
+            arch: x86
+            build_cmd: npx electron-builder -w --ia32
     
     runs-on: ${{ matrix.os }}
     
@@ -46,6 +51,11 @@ jobs:
       
       - name: Install dependencies
         run: npm ci
+      
+      - name: Install 7zip (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          npm install --save-dev 7zip-bin
         
       - name: Build packages
         run: ${{ matrix.build_cmd }}
@@ -67,6 +77,7 @@ jobs:
             dist/*win64*
             dist/*amd64*
             dist/*x64*
+            dist/*ia32*
           if-no-files-found: error
 
   # Build Flatpak packages
@@ -86,6 +97,11 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Install Node.js in container
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+          apt-get install -y nodejs
       
       - name: Generate sources for flatpak
         run: |
