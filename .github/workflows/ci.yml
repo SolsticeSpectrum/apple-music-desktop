@@ -63,6 +63,7 @@ jobs:
           NODE_ENV: production
           ELECTRON_CACHE: ${{ github.workspace }}/electron
           electron_config_cache: ${{ github.workspace }}/electron
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -100,7 +101,7 @@ jobs:
       
       - name: Setup build environment
         run: |
-          dnf install -y python3 python3-pip
+          # The container already has python3, just install aiohttp
           pip3 install aiohttp
       
       - name: Generate sources for flatpak
