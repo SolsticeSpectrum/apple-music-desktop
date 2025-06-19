@@ -101,12 +101,11 @@ jobs:
       
       - name: Setup build environment
         run: |
-          # The container already has python3, just install aiohttp
           pip3 install aiohttp
       
       - name: Generate sources for flatpak
         run: |
-          curl -L https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/node/flatpak-node-generator.py -o flatpak-node-generator.py
+          wget https://github.com/flatpak/flatpak-builder-tools/raw/master/node/flatpak-node-generator.py
           python3 flatpak-node-generator.py npm package-lock.json
       
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
