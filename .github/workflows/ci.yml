@@ -113,6 +113,8 @@ jobs:
           # Also update electron-builder config to use official electron
           sed -i 's|"version": "30.5.1+wvcus"|"version": "30.5.1"|' electron-builder.json
           sed -i 's|"mirror": "https://github.com/castlabs/electron-releases/releases/download/v"|"mirror": "https://github.com/electron/electron/releases/download/v"|' electron-builder.json
+          # Update package-lock.json to match
+          npm install --package-lock-only
       
       - name: Build dist for flatpak  
         run: |
