@@ -1,0 +1,51 @@
+app-id: com.alex313031.AppleMusic
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '23.08'
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node18
+command: apple-music
+separate-locales: false
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=pulseaudio
+  - --share=network
+  - --device=dri
+  - --filesystem=xdg-download
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.indicator.application
+  - --talk-name=org.ayatana.indicator.application
+  - --system-talk-name=org.freedesktop.login1
+modules:
+  - name: apple-music
+    buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/node18/bin
+      env:
+        NPM_CONFIG_LOGLEVEL: info
+        ELECTRON_CACHE: /run/build/apple-music/flatpak-node/electron-cache
+        ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+    build-commands:
+      - npm ci --offline --cache=/run/build/apple-music/flatpak-node/npm-cache
+      - |
+        . /usr/lib/sdk/node18/enable.sh
+        npm run build --offline
+      - cp -r src/* /app/apple-music/
+      - install -Dm755 flatpak-wrapper.sh /app/bin/apple-music
+      - install -Dm644 assets/icon.png /app/share/icons/hicolor/512x512/apps/com.alex313031.AppleMusic.png
+      - install -Dm644 build/com.alex313031.AppleMusic.desktop /app/share/applications/com.alex313031.AppleMusic.desktop
+      - install -Dm644 build/com.alex313031.AppleMusic.metainfo.xml /app/share/metainfo/com.alex313031.AppleMusic.metainfo.xml
+    sources:
+      - type: dir
+        path: .
+      - generated-sources.json
+      - type: script
+        dest-filename: flatpak-wrapper.sh
+        commands:
+          - export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
+          - exec zypak-wrapper /app/apple-music/app.js "$@"

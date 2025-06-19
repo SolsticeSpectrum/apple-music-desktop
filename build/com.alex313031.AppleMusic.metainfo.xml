@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.alex313031.AppleMusic</id>
+  <name>Apple Music</name>
+  <summary>Native Apple Music experience for Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>BSD-3-Clause</project_license>
+  <developer_name>Alex313031</developer_name>
+  <url type="homepage">https://github.com/Alex313031/apple-music-desktop</url>
+  <description>
+    <p>An Electron app that provides a native Apple Music experience for Linux, including support for mobile UI on ARM devices.</p>
+  </description>
+  <launchable type="desktop-id">com.alex313031.AppleMusic.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/Alex313031/apple-music-desktop/main/assets/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.2.0" date="2025-01-19"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

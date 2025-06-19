@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Apple Music
+Comment=Native Apple Music experience for Linux
+Exec=apple-music %U
+Terminal=false
+Type=Application
+Icon=com.alex313031.AppleMusic
+StartupWMClass=apple-music
+Categories=AudioVideo;Audio;
+Keywords=apple;music;streaming;
