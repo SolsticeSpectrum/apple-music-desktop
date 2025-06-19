@@ -33,7 +33,8 @@ modules:
     build-commands:
       - |
         . /usr/lib/sdk/node18/enable.sh
-        npm ci --offline --cache=$FLATPAK_BUILDER_BUILDDIR/npm-cache
+        npm config set offline true
+        npm install
       - npm run build
       - mkdir -p /app/apple-music
       - cp -r src/* /app/apple-music/
@@ -44,6 +45,11 @@ modules:
     sources:
       - type: dir
         path: .
+        skip:
+          - .flatpak-builder
+          - build
+          - dist
+          - .git
       - generated-sources.json
       - type: script
         dest-filename: flatpak-wrapper.sh
