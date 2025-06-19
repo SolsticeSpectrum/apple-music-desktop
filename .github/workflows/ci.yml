@@ -105,6 +105,15 @@ jobs:
           node-version: '18'
           cache: 'npm'
       
+      - name: Patch for ARM64
+        if: matrix.variant.arch == 'aarch64'
+        run: |
+          # Replace castlabs electron with official electron for ARM64
+          sed -i 's|"electron": "git+https://github.com/castlabs/electron-releases#v30.5.1+wvcus"|"electron": "30.5.1"|' package.json
+          # Also update electron-builder config to use official electron
+          sed -i 's|"version": "30.5.1+wvcus"|"version": "30.5.1"|' electron-builder.json
+          sed -i 's|"mirror": "https://github.com/castlabs/electron-releases/releases/download/v"|"mirror": "https://github.com/electron/electron/releases/download/v"|' electron-builder.json
+      
       - name: Build dist for flatpak  
         run: |
           npm ci --ignore-scripts
@@ -183,6 +192,8 @@ jobs:
             # For ARM64 devices (PinePhone, etc.)
             flatpak install apple-music-aarch64.flatpak
             ```
+            
+            Note: ARM64 builds use official Electron instead of castlabs, so DRM content may not work.
             
             ### Changelog
             See [commits](https://github.com/${{ github.repository }}/commits/main) for detailed changes.
