@@ -108,13 +108,18 @@ jobs:
       - name: Patch for ARM64
         if: matrix.variant.arch == 'aarch64'
         run: |
-          # Replace castlabs electron with official electron for ARM64
+          # Replace castlabs electron with official electron for ARM64 in both package.json files
           sed -i 's|"electron": "git+https://github.com/castlabs/electron-releases#v30.5.1+wvcus"|"electron": "30.5.1"|' package.json
+          sed -i 's|"electron": "git+https://github.com/castlabs/electron-releases#v30.5.1+wvcus"|"electron": "30.5.1"|' src/package.json || true
           # Also update electron-builder config to use official electron
           sed -i 's|"version": "30.5.1+wvcus"|"version": "30.5.1"|' electron-builder.json
           sed -i 's|"mirror": "https://github.com/castlabs/electron-releases/releases/download/v"|"mirror": "https://github.com/electron/electron/releases/download/v"|' electron-builder.json
           # Update package-lock.json to match
           npm install --package-lock-only
+          # Also update src/package-lock.json if it exists
+          if [ -f "src/package-lock.json" ]; then
+            cd src && npm install --package-lock-only && cd ..
+          fi
       
       - name: Build dist for flatpak  
         run: |
