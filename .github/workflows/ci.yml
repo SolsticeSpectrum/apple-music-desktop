@@ -102,7 +102,7 @@ jobs:
       - name: Generate sources for flatpak
         run: |
           wget https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/npm/flatpak-npm-generator.py
-          python3 flatpak-npm-generator.py package-lock.json --npm3
+          python3 flatpak-npm-generator.py package-lock.json
           cp build/com.alex313031.AppleMusic.yml .
           cp build/com.alex313031.AppleMusic.desktop .
           cp build/com.alex313031.AppleMusic.metainfo.xml .

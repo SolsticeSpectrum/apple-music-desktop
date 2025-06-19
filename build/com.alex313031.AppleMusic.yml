@@ -27,9 +27,7 @@ modules:
     build-options:
       append-path: /usr/lib/sdk/node18/bin
       env:
-        XDG_CACHE_HOME: /run/build/apple-music/flatpak-node/cache
-        npm_config_cache: /run/build/apple-music/flatpak-node/npm-cache
-        npm_config_nodedir: /usr/lib/sdk/node18
+        npm_config_cache: /run/build/apple-music/npm-cache
         npm_config_offline: 'true'
         NPM_CONFIG_LOGLEVEL: info
     build-commands:
