@@ -107,7 +107,8 @@ jobs:
       
       - name: Build dist for flatpak  
         run: |
-          npm ci
+          npm ci --ignore-scripts
+          npm run postinstall || true
           npm run distLinux
         env:
           NODE_ENV: production
