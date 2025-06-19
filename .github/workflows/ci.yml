@@ -98,15 +98,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Install Node.js in container
+      - name: Setup build environment
         run: |
-          curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-          apt-get install -y nodejs
+          dnf install -y python3 python3-pip
+          pip3 install aiohttp
       
       - name: Generate sources for flatpak
         run: |
-          npm install -g flatpak-node-generator
-          flatpak-node-generator npm package-lock.json
+          curl -L https://raw.githubusercontent.com/flatpak/flatpak-builder-tools/master/node/flatpak-node-generator.py -o flatpak-node-generator.py
+          python3 flatpak-node-generator.py npm package-lock.json
       
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
